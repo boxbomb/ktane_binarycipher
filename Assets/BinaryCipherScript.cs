@@ -7,51 +7,25 @@ using UnityEngine;
 using KModkit;
 using Rnd = UnityEngine.Random;
 //sorry for bad coding   :(
-public class Template : MonoBehaviour {
+public class BinaryCipherScript : MonoBehaviour
+{
+    public KMBombInfo Bomb;
+    public KMAudio Audio;
 
-   public KMBombInfo Bomb;
-   public KMAudio Audio;
+    private static int ModuleIdCounter = 1;
+    private int ModuleId;
+    private bool ModuleSolved;
+    public KMSelectable[] ArrowSels;
+    public KMSelectable[] KeyboardSels;
 
-   static int ModuleIdCounter = 1;
-   int ModuleId;
-   private bool ModuleSolved;
-    public KMSelectable[] right;
-    public KMSelectable[] left;
-    public KMSelectable[] A;
-    public KMSelectable[] B;
-    public KMSelectable[] C;
-    public KMSelectable[] D;
-    public KMSelectable[] E;
-    public KMSelectable[] F;
-    public KMSelectable[] G;
-    public KMSelectable[] H;
-    public KMSelectable[] I;
-    public KMSelectable[] J;
-    public KMSelectable[] K;
-    public KMSelectable[] L;
-    public KMSelectable[] M;
-    public KMSelectable[] N;
-    public KMSelectable[] O;
-    public KMSelectable[] P;
-    public KMSelectable[] Q;
-    public KMSelectable[] R;
-    public KMSelectable[] S;
-    public KMSelectable[] T;
-    public KMSelectable[] U;
-    public KMSelectable[] V;
-    public KMSelectable[] W;
-    public KMSelectable[] X;
-    public KMSelectable[] Y;
-    public KMSelectable[] Z;
-
-    public int a;
+    private int a;
     string[] answer = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
-    public string answer5;
+    private string answer5;
     string[] topletter = { "A", "B", "C" };
-    public string selectletter;
-    public string answer6;
-    public string encry;
-    string[] keyword = { 
+    private string selectletter;
+    private string answer6;
+    private string encry;
+    string[] keyword = {
                 "ABACUS", "ABDUCT", "ABJECT", "ABLAZE", "ABOARD", "ABOUND", "ABROAD", "ABRUPT", "ABSENT", "ABSORB", "ABSURD", "ABUSED", "ABUSER", "ABUSES", "ACACIA", "ACCEDE", "ACCENT", "ACCEPT", "ACCESS", "ACCORD", "ACCOST", "ACCRUE", "ACCUSE", "ACETIC", "ACHING", "ACIDIC", "ACQUIT", "ACROSS", "ACTING", "ACTION", "ACTIVE", "ACTORS", "ACTUAL", "ACUITY", "ACUMEN", "ADAGIO", "ADDICT", "ADDING", "ADHERE", "ADJOIN", "ADJUST", "ADMIRE", "ADMITS", "ADORED", "ADRIFT", "ADULTS", "ADVENT", "ADVERB", "ADVERT", "ADVICE", "ADVISE", "AERIAL", "AFFAIR", "AFFECT", "AFFINE", "AFFIRM", "AFFORD", "AFGHAN", "AFIELD", "AFLAME", "AFLOAT", "AFRAID", "AFRESH", "AFRICA", "AGENCY", "AGENDA", "AGENTS", "AGHAST", "AGREED", "AGREES", "AIMING", "AIRBAG", "AIRING", "ALASKA", "ALBEIT", "ALBINO", "ALBUMS", "ALCOVE", "ALIENS", "ALKALI", "ALLEGE", "ALLELE", "ALLIED", "ALLIES", "ALLOWS", "ALLUDE", "ALLURE", "ALMOND", "ALMOST", "ALPACA", "ALPINE", "ALUMNA", "ALUMNI", "ALWAYS", "AMAZED", "AMAZON", "AMBUSH", "AMENDS", "AMIDST", "AMOEBA", "AMORAL", "AMOUNT", "AMULET", "AMUSED", "ANALOG", "ANCHOR", "ANEMIA", "ANEMIC", "ANGELS", "ANGINA", "ANGLED", "ANGLER", "ANGLES", "ANGORA", "ANIMAL", "ANKLES", "ANKLET", "ANNUAL", "ANOINT", "ANORAK", "ANSWER", "ANTHEM", "ANTICS", "ANTLER", "ANYHOW", "ANYONE", "ANYWAY", "AORTIC", "APACHE", "APATHY", "APIECE", "APOGEE", "APPALL", "APPEAL", "APPEAR", "APPEND", "APPLES", "APPLET", "ARCADE", "ARCANA", "ARCANE", "ARCHED", "ARCHER", "ARCHES", "ARCHLY", "ARCTIC", "ARDENT", "ARGUED", "ARGUES", "ARISEN", "ARISES", "ARMADA", "ARMFUL", "ARMIES", "ARMING", "ARMORY", "ARMOUR", "ARMPIT", "AROUND", "AROUSE", "ARREST", "ARRIVE", "ARROWS", "ARTERY", "ARTFUL", "ARTIST", "ASCEND", "ASCENT", "ASHORE", "ASKING", "ASLEEP", "ASPECT", "ASPIRE", "ASSENT", "ASSERT", "ASSESS", "ASSETS", "ASSIGN", "ASSIST", "ASSUME", "ASSURE", "ASTHMA", "ASTRAL", "ASTRAY", "ASTUTE", "ASYLUM", "ATOMIC", "ATONAL", "ATRIUM", "ATTACH", "ATTACK", "ATTAIN", "ATTEND", "ATTEST", "ATTIRE", "ATTUNE", "AUGUST", "AUNTIE", "AUTHOR", "AUTISM", "AUTUMN", "AVATAR", "AVENGE", "AVENUE", "AVERSE", "AVIARY", "AVIDLY", "AVOIDS", "AVOWAL", "AVOWED", "AWAKEN", "AWARDS", "AWHILE", "AWNING", "AZALEA",
                 "BABBLE", "BABIES", "BABOON", "BACKED", "BACKER", "BACKUP", "BADDIE", "BADGER", "BAFFLE", "BAGGED", "BAGGER", "BAGGIE", "BAITED", "BAKERY", "BAKING", "BALDLY", "BALLAD", "BALLET", "BALLOT", "BALSAM", "BAMBOO", "BANANA", "BANDED", "BANDIT", "BANGED", "BANGER", "BANISH", "BANKED", "BANKER", "BANNED", "BANNER", "BANTER", "BANZAI", "BAOBAB", "BARBED", "BARBER", "BARELY", "BARIUM", "BARKER", "BARLEY", "BARMAN", "BARNET", "BARONS", "BARRED", "BARREL", "BARREN", "BARTER", "BASALT", "BASICS", "BASINS", "BASKET", "BASQUE", "BASSET", "BATHER", "BATTEN", "BATTER", "BATTLE", "BAUBLE", "BAZAAR", "BEACON", "BEADED", "BEAGLE", "BEAKER", "BEAMED", "BEARER", "BEASTS", "BEATEN", "BEATER", "BEAUTY", "BEAVER", "BECAME", "BECKON", "BECOME", "BEDBUG", "BEDLAM", "BEDPAN", "BEEPER", "BEETLE", "BEFALL", "BEFORE", "BEGGAR", "BEGGED", "BEGINS", "BEHALF", "BEHAVE", "BEHEAD", "BEHEST", "BEHIND", "BEHOLD", "BEINGS", "BELIEF", "BELLOW", "BELONG", "BELTED", "BEMOAN", "BENIGN", "BERATE", "BEREFT", "BERLIN", "BESIDE", "BESTOW", "BETRAY", "BETTER", "BETTOR", "BEWARE", "BEYOND", "BIASED", "BICEPS", "BICKER", "BIDDER", "BIGGER", "BIGWIG", "BIKING", "BIKINI", "BILLOW", "BINARY", "BINDER", "BIOGAS", "BIONIC", "BIOPIC", "BIOPSY", "BIOTIC", "BIRDER", "BIRDIE", "BIRTHS", "BISECT", "BISHOP", "BISQUE", "BISTRO", "BITING", "BITTEN", "BITTER", "BLACKS", "BLADES", "BLAMED", "BLANCH", "BLASTS", "BLAZER", "BLEACH", "BLEARY", "BLIGHT", "BLITHE", "BLOCKS", "BLOCKY", "BLONDE", "BLOODY", "BLOTCH", "BLOUSE", "BLOWER", "BLUISH", "BLURRY", "BOARDS", "BOASTS", "BOBBLE", "BOBCAT", "BODEGA", "BODICE", "BODIES", "BODILY", "BOGGLE", "BOILED", "BOILER", "BOLDLY", "BOLERO", "BOLTED", "BOMBED", "BOMBER", "BONBON", "BONDED", "BONNET", "BONOBO", "BONSAI", "BOOGIE", "BOOKED", "BOOKIE", "BOOMER", "BOOTED", "BORDER", "BOREAL", "BORING", "BORROW", "BOSSES", "BOSTON", "BOTANY", "BOTHER", "BOTTLE", "BOTTOM", "BOUGHT", "BOUNCE", "BOUNCY", "BOUNDS", "BOUNTY", "BOVINE", "BOWING", "BOWLER", "BOWTIE", "BOXCAR", "BOXING", "BOYISH", "BRAINS", "BRAINY", "BRAISE", "BRAKES", "BRANCH", "BRANDS", "BRANDY", "BRASSY", "BRAWNY", "BRAZEN", "BRAZIL", "BREACH", "BREAKS", "BREAST", "BREATH", "BREECH", "BREEDS", "BREEZE", "BREEZY", "BRICKS", "BRIDAL", "BRIDGE", "BRIDLE", "BRIGHT", "BRINGS", "BROACH", "BROGUE", "BROKEN", "BROKER", "BRONZE", "BROOCH", "BROOKS", "BROWSE", "BRUISE", "BRUNCH", "BRUSHY", "BRUTAL", "BUBBLE", "BUBBLY", "BUCKET", "BUCKLE", "BUDGET", "BUFFED", "BUFFER", "BUFFET", "BUGGER", "BUILDS", "BULLET", "BUMBLE", "BUMMED", "BUMMER", "BUMPER", "BUNDLE", "BUNGEE", "BUNGLE", "BUNKER", "BURDEN", "BUREAU", "BURGER", "BURIAL", "BURIED", "BURLAP", "BURNED", "BURNER", "BURROW", "BURSTS", "BUSBOY", "BUSHEL", "BUSHES", "BUSILY", "BUSING", "BUSMAN", "BUSTED", "BUSTLE", "BUTANE", "BUTLER", "BUTTER", "BUTTON", "BUYERS", "BUYING", "BUYOUT", "BUZZER", "BYGONE", "BYPASS",
                 "CABLES", "CACKLE", "CACTUS", "CAESAR", "CAIMAN", "CALICO", "CALLED", "CALLER", "CALLUS", "CALMLY", "CALVES", "CAMERA", "CAMPER", "CAMPUS", "CANADA", "CANALS", "CANARY", "CANCEL", "CANCER", "CANDID", "CANDLE", "CANDOR", "CANINE", "CANNED", "CANNON", "CANOLA", "CANOPY", "CANTER", "CANVAS", "CANYON", "CAPPED", "CAPTOR", "CARBON", "CAREEN", "CAREER", "CARERS", "CARESS", "CARING", "CARNAL", "CARPAL", "CARPET", "CARROT", "CARTEL", "CARTON", "CARVED", "CASEIN", "CASHEW", "CASING", "CASINO", "CASKET", "CASTER", "CASTLE", "CASUAL", "CATCHY", "CATION", "CATNAP", "CATNIP", "CATTLE", "CAUGHT", "CAUSAL", "CAUSED", "CAUSES", "CAVEAT", "CAVERN", "CAVIAR", "CAVING", "CAVITY", "CAVORT", "CEASED", "CELERY", "CELLAR", "CELTIC", "CEMENT", "CENSOR", "CENSUS", "CENTER", "CENTRE", "CEREAL", "CERVIX", "CESIUM", "CHAINS", "CHAIRS", "CHAISE", "CHAKRA", "CHALET", "CHALKY", "CHANCE", "CHANGE", "CHAPEL", "CHARGE", "CHARTS", "CHASER", "CHASTE", "CHATTY", "CHECKS", "CHEEKS", "CHEEKY", "CHEERS", "CHEERY", "CHEESE", "CHEESY", "CHEQUE", "CHERRY", "CHERUB", "CHEWED", "CHICKS", "CHIEFS", "CHILLY", "CHISEL", "CHIVES", "CHOICE", "CHOKED", "CHOKER", "CHOOSE", "CHOPPY", "CHORAL", "CHORDS", "CHORUS", "CHOSEN", "CHROME", "CHUBBY", "CHUNKS", "CHUNKY", "CHURCH", "CICADA", "CINDER", "CINEMA", "CIPHER", "CIRCLE", "CIRCUS", "CITIES", "CITING", "CITRUS", "CIVICS", "CLAIMS", "CLAMMY", "CLAMOR", "CLASSY", "CLAUSE", "CLAWED", "CLEAVE", "CLENCH", "CLERGY", "CLERIC", "CLERKS", "CLEVER", "CLICHE", "CLIENT", "CLIFFS", "CLIMAX", "CLINCH", "CLINGY", "CLINIC", "CLIQUE", "CLOCKS", "CLONED", "CLONES", "CLOSED", "CLOSER", "CLOSES", "CLOSET", "CLOTHE", "CLOUDS", "CLOUDY", "CLOVER", "CLUMPY", "CLUMSY", "CLUNKY", "CLUTCH", "COARSE", "COASTS", "COATED", "COBALT", "COBBLE", "COBWEB", "COCOON", "CODDLE", "CODIFY", "CODING", "COERCE", "COFFEE", "COFFER", "COFFIN", "COGNAC", "COHERE", "COHORT", "COILED", "COLDER", "COLDLY", "COLLAR", "COLONY", "COLORS", "COLUMN", "COMBAT", "COMEDY", "COMING", "COMMIT", "COMMON", "COMPEL", "COMPLY", "CONCUR", "CONDOR", "CONFER", "CONSUL", "CONVEX", "CONVEY", "CONVOY", "COOKED", "COOKER", "COOKIE", "COOLED", "COOLER", "COPIED", "COPIER", "COPIES", "COPING", "COPPER", "CORDED", "CORDON", "CORNEA", "CORNED", "CORNER", "CORNET", "CORONA", "CORPSE", "CORPUS", "CORRAL", "CORSET", "CORTEX", "COSMIC", "COSMOS", "COSTLY", "COTTON", "COUNTS", "COUNTY", "COUPLE", "COUPON", "COURSE", "COURTS", "COUSIN", "COVENT", "COVERS", "COVERT", "COWARD", "COWBOY", "COYOTE", "CRABBY", "CRACKS", "CRADLE", "CRAFTY", "CRANKY", "CRANNY", "CRATER", "CRAYON", "CRAZED", "CREAKY", "CREAMY", "CREASE", "CREATE", "CREDIT", "CREEPY", "CREOLE", "CRETIN", "CREWED", "CRIMES", "CRINGE", "CRISES", "CRISIS", "CRISPS", "CRISPY", "CRITIC", "CROCUS", "CROTCH", "CROUCH", "CROWDS", "CRUISE", "CRUMMY", "CRUNCH", "CRUSTY", "CRUTCH", "CRYING", "CUBISM", "CUBIST", "CUCKOO", "CUDDLE", "CUDDLY", "CUPPED", "CURATE", "CURDLE", "CURFEW", "CURLED", "CURLER", "CURSED", "CURSOR", "CURTLY", "CURTSY", "CURVED", "CURVES", "CUSTOM", "CUTESY", "CUTLET", "CUTTER", "CYBORG", "CYCLES", "CYCLIC", "CYMBAL", "CYSTIC",
@@ -78,51 +52,48 @@ public class Template : MonoBehaviour {
                 "XENONS", "XYLOSE",
                 "YACHTS", "YEARLY", "YELLED", "YELLER", "YELLOW", "YIELDS", "YIPPEE", "YONDER", "YOUTHS", "YUPPIE",
                 "ZAGGED", "ZAPPED", "ZAPPER", "ZEALOT", "ZEBRAS", "ZENITH", "ZEROES", "ZIGGED", "ZIGZAG", "ZINGER", "ZIPPED", "ZIPPER", "ZODIAC", "ZOMBIE", "ZONING", "ZOOMED", "ZYGOTE"
-
-
-
     };
-    public int deletenum;
-    public string selectkeyword;
+    private int deletenum;
+    private string selectkeyword;
     public TextMesh[] top;
     public TextMesh[] bottom;
     public TextMesh[] middle;
     public TextMesh[] stagetext;
-    public string stage;
-    public string deleteletter;
-    public string resultkeyword;
-    public string filltoletter;
-    public string filltot1;
-    public int p1;
-    public int p2;
-    public int p3;
-    public int p4;
-    public int p5;
-    public int p6;
-    public int p7;
-    public int p8;
-    public int p9;
-    public int p10;
-    public int p11;
-    public int p12;
-    public string binary16;
-    public int b1;
-    public int b2;
-    public int b3;
-    public int b4;
-    public int b5;
-    public int b6;
-    public int b7;
-    public int b8;
-    public int b9;
-    public int b10;
-    public int b11;
-    public int b12;
-    public int b13;
-    public int b14;
-    public int b15; 
-    public int b16;
-    public string keywordtext;
+    private string stage;
+    private string deleteletter;
+    private string resultkeyword;
+    private string filltoletter;
+    private string filltot1;
+    private int p1;
+    private int p2;
+    private int p3;
+    private int p4;
+    private int p5;
+    private int p6;
+    private int p7;
+    private int p8;
+    private int p9;
+    private int p10;
+    private int p11;
+    private int p12;
+    private string binary16;
+    private int b1;
+    private int b2;
+    private int b3;
+    private int b4;
+    private int b5;
+    private int b6;
+    private int b7;
+    private int b8;
+    private int b9;
+    private int b10;
+    private int b11;
+    private int b12;
+    private int b13;
+    private int b14;
+    private int b15;
+    private int b16;
+    private string keywordtext;
     private static readonly string[,] Tableletter = {
         {"","","","" },
         {"","","","" },
@@ -159,535 +130,69 @@ public class Template : MonoBehaviour {
         {"","","","" },
         {"","","","" },
      };
-    public int i = 1;
-    public string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-   void Awake () {
-      ModuleId = ModuleIdCounter++;
-        foreach (KMSelectable button in right)
-        {
-            button.OnInteract += delegate () { buttonPressright(button); return false; };
-        }
-        foreach (KMSelectable button in left)
-        {
-            button.OnInteract += delegate () { buttonPressleft(button); return false; };
-        }
-        foreach (KMSelectable button in A)
-        {
-            button.OnInteract += delegate () { buttonPressleftA(button); return false; };
-        }
-        foreach (KMSelectable button in B)
-        {
-            button.OnInteract += delegate () { buttonPressleftB(button); return false; };
-        }
-        foreach (KMSelectable button in C)
-        {
-            button.OnInteract += delegate () { buttonPressleftC(button); return false; };
-        }
-        foreach (KMSelectable button in D)
-        {
-            button.OnInteract += delegate () { buttonPressleftD(button); return false; };
-        }
-        foreach (KMSelectable button in E)
-        {
-            button.OnInteract += delegate () { buttonPressleftE(button); return false; };
-        }
-        foreach (KMSelectable button in F)
-        {
-            button.OnInteract += delegate () { buttonPressleftF(button); return false; };
-        }
-        foreach (KMSelectable button in G)
-        {
-            button.OnInteract += delegate () { buttonPressleftG(button); return false; };
-        }
-        foreach (KMSelectable button in H)
-        {
-            button.OnInteract += delegate () { buttonPressleftH(button); return false; };
-        }
-        foreach (KMSelectable button in I)
-        {
-            button.OnInteract += delegate () { buttonPressleftI(button); return false; };
-        }
-        foreach (KMSelectable button in J)
-        {
-            button.OnInteract += delegate () { buttonPressleftJ(button); return false; };
-        }
-        foreach (KMSelectable button in K)
-        {
-            button.OnInteract += delegate () { buttonPressleftK(button); return false; };
-        }
-        foreach (KMSelectable button in L)
-        {
-            button.OnInteract += delegate () { buttonPressleftL(button); return false; };
-        }
-        foreach (KMSelectable button in M)
-        {
-            button.OnInteract += delegate () { buttonPressleftM(button); return false; };
-        }
-        foreach (KMSelectable button in N)
-        {
-            button.OnInteract += delegate () { buttonPressleftN(button); return false; };
-        }
-        foreach (KMSelectable button in O)
-        {
-            button.OnInteract += delegate () { buttonPressleftO(button); return false; };
-        }
-        foreach (KMSelectable button in P)
-        {
-            button.OnInteract += delegate () { buttonPressleftP(button); return false; };
-        }
-        foreach (KMSelectable button in Q)
-        {
-            button.OnInteract += delegate () { buttonPressleftQ(button); return false; };
-        }
-        foreach (KMSelectable button in R)
-        {
-            button.OnInteract += delegate () { buttonPressleftR(button); return false; };
-        }
-        foreach (KMSelectable button in S)
-        {
-            button.OnInteract += delegate () { buttonPressleftS(button); return false; };
-        }
-        foreach (KMSelectable button in T)
-        {
-            button.OnInteract += delegate () { buttonPressleftT(button); return false; };
-        }
-        foreach (KMSelectable button in U)
-        {
-            button.OnInteract += delegate () { buttonPressleftU(button); return false; };
-        }
-        foreach (KMSelectable button in V)
-        {
-            button.OnInteract += delegate () { buttonPressleftV(button); return false; };
-        }
-        foreach (KMSelectable button in W)
-        {
-            button.OnInteract += delegate () { buttonPressleftW(button); return false; };
-        }
-        foreach (KMSelectable button in X)
-        {
-            button.OnInteract += delegate () { buttonPressleftX(button); return false; };
-        }
-        foreach (KMSelectable button in Y)
-        {
-            button.OnInteract += delegate () { buttonPressleftY(button); return false; };
-        }
-        foreach (KMSelectable button in Z)
-        {
-            button.OnInteract += delegate () { buttonPressleftZ(button); return false; };
-        }
-        //button.OnInteract += delegate () { buttonPress(); return false; };
+    private int i = 1;
+    private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    }
-    void buttonPressright(KMSelectable button)
+    void Awake()
     {
-        button.AddInteractionPunch();
-        Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, button.transform);
-        if (stagetext[0].text == "1")
-        {
-            top[0].text = selectletter;
-            bottom[0].text = "";
-            stage += 1;
-            middle[0].text = string.Concat(b1.ToString(), b2.ToString(), b3.ToString(), b4.ToString(), b5.ToString(), b6.ToString(), b7.ToString(), b8.ToString(), b9.ToString(), b10.ToString(), b11.ToString(), b12.ToString(), b13.ToString(), b14.ToString(), b15.ToString(), b16.ToString());
-            stagetext[0].text = "2" ;
-        }
-        else
-        {
-            bottom[0].text = keywordtext;
-            top[0].text = encry;
-            middle[0].text = "";
-            stagetext[0].text = "1";
-        }
-        
+        ModuleId = ModuleIdCounter++;
+        for (int i = 0; i < ArrowSels.Length; i++)
+            ArrowSels[i].OnInteract += ArrowPress(i);
+        for (int i = 0; i < KeyboardSels.Length; i++)
+            KeyboardSels[i].OnInteract += KeyboardPress(i);
+
     }
-    void buttonPressleft(KMSelectable button)
+    KMSelectable.OnInteractHandler ArrowPress(int btn)
     {
-        button.AddInteractionPunch();
-        Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, button.transform);
-        if (stagetext[0].text == "1")
+        return delegate ()
         {
-            top[0].text = selectletter;
-            bottom[0].text = "";
-            stage += 1;
-            middle[0].text = string.Concat(b1.ToString(), b2.ToString(), b3.ToString(), b4.ToString(), b5.ToString(), b6.ToString(), b7.ToString(), b8.ToString(), b9.ToString(), b10.ToString(), b11.ToString(), b12.ToString(), b13.ToString(), b14.ToString(), b15.ToString(), b16.ToString());
-            stagetext[0].text = "2";
-        }
-        else
-        {
-            bottom[0].text = keywordtext;
-            top[0].text = encry;
-            middle[0].text = "";
-            stagetext[0].text = "1";
+            ArrowSels[btn].AddInteractionPunch(0.25f);
+            Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, ArrowSels[btn].transform);
+            if (ModuleSolved)
+                return false;
+            if (stagetext[0].text == "1")
+            {
+                top[0].text = selectletter;
+                bottom[0].text = "";
+                stage += 1;
+                middle[0].text = string.Concat(b1.ToString(), b2.ToString(), b3.ToString(), b4.ToString(), b5.ToString(), b6.ToString(), b7.ToString(), b8.ToString(), b9.ToString(), b10.ToString(), b11.ToString(), b12.ToString(), b13.ToString(), b14.ToString(), b15.ToString(), b16.ToString());
+                stagetext[0].text = "2";
+            }
+            else
+            {
+                bottom[0].text = keywordtext;
+                top[0].text = encry;
+                middle[0].text = "";
+                stagetext[0].text = "1";
 
-        }
-
+            }
+            return false;
+        };
     }
-    void buttonPressleftA(KMSelectable button)
+    private KMSelectable.OnInteractHandler KeyboardPress(int btn)
     {
-        button.AddInteractionPunch();
-        if (answer5 == "A")
+        return delegate ()
         {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
+            KeyboardSels[btn].AddInteractionPunch(0.1f);
+            Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, KeyboardSels[btn].transform);
+            if (ModuleSolved)
+                return false;
+            var ix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[btn].ToString();
+            if (answer5 == ix)
+            {
+                ModuleSolved = true;
+                Debug.LogFormat("[Binary Cipher #{0}] Correctly pressed {1}. Module solved.", ModuleId, ix);
+                Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.CorrectChime, transform);
+                GetComponent<KMBombModule>().HandlePass();
+            }
+            else
+                GetComponent<KMBombModule>().HandleStrike();
+            return false;
+        };
     }
-    void buttonPressleftB(KMSelectable button)
+
+    void Start()
     {
-        button.AddInteractionPunch();
-        if (answer5 == "B")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftC(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "C")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftD(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "D")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftE(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "E")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftF(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "F")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftG(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "G")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftH(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "H")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftI(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "I")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftJ(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "J")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftK(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "K")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftL(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "L")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftM(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "M")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftN(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "N")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftO(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "O")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftP(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "P")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftQ(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "Q")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftR(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "R")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftS(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "S")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftT(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "T")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftU(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "U")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftV(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "V")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftW(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "W")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftX(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "X")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftY(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "Y")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-    void buttonPressleftZ(KMSelectable button)
-    {
-        button.AddInteractionPunch();
-        if (answer5 == "Z")
-        {
-            GetComponent<KMBombModule>().HandlePass();
-        }
-        else
-        {
-            GetComponent<KMBombModule>().HandleStrike();
-
-        }
-
-    }
-   
-    void Start () {
-        
         stage = "1";
         stagetext[0].text = stage;
         answer5 = answer[Rnd.Range(0, answer.Length)];
@@ -714,7 +219,7 @@ public class Template : MonoBehaviour {
         b16 = Rnd.Range(0, 2);
 
         resultkeyword = "";
-       
+
         if (answer5 == "A")
         {
             answer6 = "00001";
@@ -820,115 +325,96 @@ public class Template : MonoBehaviour {
             answer6 = "11010";
         }
 
+        var answerBeforeInsert = answer6;
         answer6 = answer6.Insert(Bomb.GetBatteryCount() % 6, deletenum.ToString());
+        var answerAfterInsert = answer6;
         var unique = new HashSet<char>(selectkeyword);
         foreach (char c in unique)
         {
-           resultkeyword += c;
+            resultkeyword += c;
         }
         i = resultkeyword.Length;
-        
-       
+
+
         if (i == 6)
         {
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
         }
         else if (i == 5)
         {
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
         }
         else if (i == 4)
         {
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
         }
         else if (i == 3)
         {
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
         }
         else if (i == 2)
         {
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
         }
         else if (i == 1)
         {
             deleteletter = resultkeyword.Substring(0, 1);
             alphabet = alphabet.Replace(deleteletter, string.Empty);
-            print(deleteletter);
             resultkeyword = resultkeyword.Remove(0, 1);
         }
         filltoletter = alphabet.Substring(0, 1);
@@ -978,7 +464,7 @@ public class Template : MonoBehaviour {
         Tableletter[3, 3] = filltoletter;
         if (selectletter == "A")
         {
-            if (Tableletter[1,1] == "A" | Tableletter[1, 1] == "B" | Tableletter[1, 1] == "C" | Tableletter[1, 1] == "D" | Tableletter[1, 1] == "E" | Tableletter[1, 1] == "F" | Tableletter[1, 1] == "G" | Tableletter[1, 1] == "H" | Tableletter[1, 1] == "I" | Tableletter[1, 1] == "J" | Tableletter[1, 1] == "K" | Tableletter[1, 1] == "L" | Tableletter[1, 1] == "Z")
+            if (Tableletter[1, 1] == "A" | Tableletter[1, 1] == "B" | Tableletter[1, 1] == "C" | Tableletter[1, 1] == "D" | Tableletter[1, 1] == "E" | Tableletter[1, 1] == "F" | Tableletter[1, 1] == "G" | Tableletter[1, 1] == "H" | Tableletter[1, 1] == "I" | Tableletter[1, 1] == "J" | Tableletter[1, 1] == "K" | Tableletter[1, 1] == "L" | Tableletter[1, 1] == "Z")
             {
                 p1 = 0;
                 p2 = 0;
@@ -1081,9 +567,9 @@ public class Template : MonoBehaviour {
         t1[0, 3] = (Bomb.GetBatteryCount() + 3) % 8 + 1;
         t1[1, 0] = (Bomb.GetBatteryCount() + 4) % 8 + 1;
         t1[1, 1] = (Bomb.GetBatteryCount() + 5) % 8 + 1;
-        t1[1, 2] = (Bomb.GetBatteryCount() + 6)  % 8+ 1;
+        t1[1, 2] = (Bomb.GetBatteryCount() + 6) % 8 + 1;
         t1[1, 3] = (Bomb.GetBatteryCount() + 7) % 8 + 1;
-        t1[2, 0] =  Bomb.GetPortCount() % 8 + 1;
+        t1[2, 0] = Bomb.GetPortCount() % 8 + 1;
         t1[2, 1] = (Bomb.GetPortCount() + 1) % 8 + 1;
         t1[2, 2] = (Bomb.GetPortCount() + 2) % 8 + 1;
         t1[2, 3] = (Bomb.GetPortCount() + 3) % 8 + 1;
@@ -1097,7 +583,7 @@ public class Template : MonoBehaviour {
         t5[0, 1] = a.ToString();
         a = Rnd.Range(0, 2);
         t5[0, 2] = a.ToString();
-        a = Rnd.Range(0, 2); 
+        a = Rnd.Range(0, 2);
         t5[0, 3] = a.ToString();
         a = Rnd.Range(0, 2);
         t5[1, 0] = a.ToString();
@@ -1143,20 +629,19 @@ public class Template : MonoBehaviour {
         filltot1 = answer6.Substring(0, 1);
         t5[p11, p12] = filltot1;
         answer6 = answer6.Remove(0, 1);
-        print(string.Concat(answer5, answer6,resultkeyword,alphabet,Tableletter[p11,p12]));
 
         t2[0, 0] = b1;
 
         t2[0, 1] = b2;
 
         t2[0, 2] = b3;
-      
+
         t2[0, 3] = b4;
-      
+
         t2[1, 0] = b5;
-       
+
         t2[1, 1] = b6;
-        
+
         t2[1, 2] = b7;
 
         t2[1, 3] = b8;
@@ -1305,9 +790,9 @@ public class Template : MonoBehaviour {
             t3[3, 3] = 0;
         }
 
-        if(t5[0,0] == "1")
+        if (t5[0, 0] == "1")
         {
-            if(t3[0,0] == 1)
+            if (t3[0, 0] == 1)
             {
                 t4[0, 3] = "1";
             }
@@ -1657,260 +1142,96 @@ public class Template : MonoBehaviour {
                 t4[3, 0] = "1";
             }
         }
-        print(t1[0, 0]);
-        print(t1[0, 1]);
-        print(t1[0, 2]);
-        print(t1[0, 3]);
-        print(t1[1, 0]);
-        print(t1[1, 1]);
-        print(t1[1, 2]);
-        print(t1[1, 3]);
-        print(t1[2, 0]);
-        print(t1[2, 1]);
-        print(t1[2, 2]);
-        print(t1[2, 3]);
-        print(t1[3, 0]);
-        print(t1[3, 1]);
-        print(t1[3, 2]);
-        print(t1[3, 3]);
-        print(t2[0, 0]);
-        print(t2[0, 1]);
-        print(t2[0, 2]);
-        print(t2[0, 3]);
-        print(t2[1, 0]);
-        print(t2[1, 1]);
-        print(t2[1, 2]);
-        print(t2[1, 3]);
-        print(t2[2, 0]);
-        print(t2[2, 1]);
-        print(t2[2, 2]);
-        print(t2[2, 3]);
-        print(t2[3, 0]);
-        print(t2[3, 1]);
-        print(t2[3, 2]);
-        print(t2[3, 3]);
-        print("3");
-        print(t3[0, 0]);
-        print(t3[0, 1]);
-        print(t3[0, 2]);
-        print(t3[0, 3]);
-        print(t3[1, 0]);
-        print(t3[1, 1]);
-        print(t3[1, 2]);
-        print(t3[1, 3]);
-        print(t3[2, 0]);
-        print(t3[2, 1]);
-        print(t3[2, 2]);
-        print(t3[2, 3]);
-        print(t3[3, 0]);
-        print(t3[3, 1]);
-        print(t3[3, 2]);
-        print(t3[3, 3]);
 
-
-
-        print("4");
-
-
-        print(t4[0, 0]);
-        print(t4[0, 1]);
-        print(t4[0, 2]);
-        print(t4[0, 3]);
-        print(t4[1, 0]);
-        print(t4[1, 1]);
-        print(t4[1, 2]);
-        print(t4[1, 3]);
-        print(t4[2, 0]);
-        print(t4[2, 1]);
-        print(t4[2, 2]);
-        print(t4[2, 3]);
-        print(t4[3, 0]);
-        print(t4[3, 1]);
-        print(t4[3, 2]);
-        print(t4[3, 3]);
-
-
-
-        print("5");
-        
-        print(t5[0, 0]);
-        print(t5[0, 1]);
-        print(t5[0, 2]);
-        print(t5[0, 3]);
-        print(t5[1, 0]);
-        print(t5[1, 1]);
-        print(t5[1, 2]);
-        print(t5[1, 3]);
-        print(t5[2, 0]);
-        print(t5[2, 1]);
-        print(t5[2, 2]);
-        print(t5[2, 3]);
-        print(t5[3, 0]);
-        print(t5[3, 1]);
-        print(t5[3, 2]);
-        print(t5[3, 3]);
-       
         encry = string.Concat(t4[0, 0], t4[0, 1], t4[0, 2], t4[0, 3], t4[1, 0], t4[1, 1], t4[1, 2], t4[1, 3], t4[2, 0], t4[2, 1], t4[2, 2], t4[2, 3], t4[3, 0], t4[3, 1], t4[3, 2], t4[3, 3]);
         top[0].text = encry;
-        print(answer5);
-    }
-    
-   void Update () {
 
-   }
+        // Initial logging
+        Debug.LogFormat("[Binary Cipher #{0}] Page 1, top screen: {1}", ModuleId, encry);
+        Debug.LogFormat("[Binary Cipher #{0}] Page 1, bottom screen: {1}", ModuleId, selectkeyword);
+        Debug.LogFormat("[Binary Cipher #{0}] Page 2, top screen: {1}", ModuleId, selectletter);
+        Debug.LogFormat("[Binary Cipher #{0}] Page 2, middle screen: {1}.", ModuleId, new[] { b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16 }.Join(""));
+
+        // Logging for Step 1
+        Debug.LogFormat("[Binary Cipher #{0}] Step 1: Axial Symmetry Transposition.", ModuleId);
+        string[] grids = new string[5] { "", "", "", "", "" };
+        for (int x = 0; x < 4; x++)
+        {
+            for (int y = 0; y < 4; y++)
+            {
+                grids[0] += t1[x, y];
+                grids[1] += t2[x, y];
+                grids[2] += t3[x, y];
+                grids[3] += t4[x, y];
+                grids[4] += t5[x, y];
+            }
+        }
+        for (int i = 0; i < grids.Length; i++)
+        {
+            Debug.LogFormat("[Binary Cipher #{0}] Grid {1}:", ModuleId, i + 1);
+            for (int j = 0; j < 4; j++)
+                Debug.LogFormat("[Binary Cipher #{0}] {1}", ModuleId, grids[i].Substring(j * 4, 4));
+        }
+        // Logging for Step 2
+        Debug.LogFormat("[Binary Cipher #{0}] Step 2: Alphabet Transposition.", ModuleId);
+        Debug.LogFormat("[Binary Cipher #{0}] Keyword is {1}.", ModuleId, selectkeyword);
+        Debug.LogFormat("[Binary Cipher #{0}] The 4 by 4 matrix should be:", ModuleId);
+        string matrix = "";
+        for (int x = 0; x < 4; x++)
+            for (int y = 0; y < 4; y++)
+                matrix += Tableletter[x, y];
+        for (int i = 0; i < 4; i++)
+            Debug.LogFormat("[Binary Cipher #{0}] {1}", ModuleId, matrix.Substring(i * 4, 4));
+        Debug.LogFormat("[Binary Cipher #{0}] Using selected letter: {1}", ModuleId, selectletter);
+        string[] beforeShift = new string[3] { "XX--------X-XX-X", "X---X---X---XXX-", "X--X-X----X-X--X" };
+        string[] afterShiftUp = new string[3] { "------X-XX-XXX--", "X---X---XXX-X---", "-X----X-X--XX--X" };
+        string[] afterShiftDown = new string[3] { "XX-XXX--------X-", "XXX-X---X---X---", "X--XX--X-X----X-" };
+        Debug.LogFormat("[Binary Cipher #{0}] Table {1}, before shift:", ModuleId, selectletter);
+        for (int i = 0; i < 4; i++)
+            Debug.LogFormat("[Binary Cipher #{0}] {1}", ModuleId, beforeShift["ABC".IndexOf(selectletter)].Substring(i * 4, 4));
+        Debug.LogFormat("[Binary Cipher #{0}] Letter found at position 6 is {1}.", ModuleId, Tableletter[1, 1]);
+        Debug.LogFormat("[Binary Cipher #{0}] Table {1}, after shift:", ModuleId, selectletter);
+        for (int i = 0; i < 4; i++)
+            Debug.LogFormat("[Binary Cipher #{0}] {1}", ModuleId, "ABCDEFGHIJKLZ".Contains(Tableletter[1, 1]) ? afterShiftDown["ABC".IndexOf(selectletter)].Substring(i * 4, 4) : afterShiftUp["ABC".IndexOf(selectletter)].Substring(i * 4, 4));
+        Debug.LogFormat("[Binary Cipher #{0}] Retrieved binary is {1}.", ModuleId, answerAfterInsert);
+
+        // Logging for Step 3
+        Debug.LogFormat("[Binary Cipher #{0}] Step 3: ASCII Translation.", ModuleId);
+        Debug.LogFormat("[Binary Cipher #{0}] Remove digit {1} from retrieved binary to get {2}.", ModuleId, (Bomb.GetBatteryCount() % 6) + 1, answerBeforeInsert);
+        Debug.LogFormat("[Binary Cipher #{0}] Answer: {1}.", ModuleId, answer5);
+    }
 
 #pragma warning disable 414
-   private readonly string TwitchHelpMessage = @"Use !{0} press <X> to do press that button.X also can be left and right.X should be capitalized except left and right.";
+    private readonly string TwitchHelpMessage = @"!{0} press <letter> to press that letter. | !{0} press left/right to press left or right. | 'press' is optional.";
 #pragma warning restore 414
 
     IEnumerator ProcessTwitchCommand(string command)
     {
-        if (command.Equals("press A", StringComparison.InvariantCultureIgnoreCase))
-                
+        var m = Regex.Match(command, @"^\s*(press\s+)?left\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        if (m.Success)
         {
-            A[0].OnInteract();
+            yield return null;
+            ArrowSels[0].OnInteract();
+            yield break;
         }
-        else if (command.Equals("press B", StringComparison.InvariantCultureIgnoreCase))
-
+        m = Regex.Match(command, @"^\s*(press\s+)?right\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        if (m.Success)
         {
-            B[0].OnInteract();
+            yield return null;
+            ArrowSels[1].OnInteract();
+            yield break;
         }
-        else if (command.Equals("press C", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            C[0].OnInteract();
-        }
-        else if (command.Equals("press D", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            D[0].OnInteract();
-        }
-        else if (command.Equals("press E", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            E[0].OnInteract();
-        }
-        else if (command.Equals("press F", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            F[0].OnInteract();
-        }
-        else if (command.Equals("press G", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            G[0].OnInteract();
-        }
-        else if (command.Equals("press H", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            H[0].OnInteract();
-        }
-        else if (command.Equals("press I", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            I[0].OnInteract();
-        }
-        else if (command.Equals("press J", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            J[0].OnInteract();
-        }
-        else if (command.Equals("press K", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            K[0].OnInteract();
-        }
-        else if (command.Equals("press L", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            L[0].OnInteract();
-        }
-        else if (command.Equals("press M", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            M[0].OnInteract();
-        }
-        else if (command.Equals("press N", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            N[0].OnInteract();
-        }
-        else if (command.Equals("press O", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            O[0].OnInteract();
-        }
-        else if (command.Equals("press P", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            P[0].OnInteract();
-        }
-        else if (command.Equals("press Q", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            Q[0].OnInteract();
-        }
-        else if (command.Equals("press R", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            R[0].OnInteract();
-        }
-        else if (command.Equals("press S", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            S[0].OnInteract();
-        }
-        else if (command.Equals("press T", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            T[0].OnInteract();
-        }
-        else if (command.Equals("press U", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            U[0].OnInteract();
-        }
-        else if (command.Equals("press V", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            V[0].OnInteract();
-        }
-        else if (command.Equals("press W", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            W[0].OnInteract();
-        }
-        else if (command.Equals("press X", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            X[0].OnInteract();
-        }
-        else if (command.Equals("press Y", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            Y[0].OnInteract();
-        }
-        else if (command.Equals("press Z", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            Z[0].OnInteract();
-        }
-        else if (command.Equals("press left", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            left[0].OnInteract();
-        }
-        else if (command.Equals("press right", StringComparison.InvariantCultureIgnoreCase))
-
-        {
-            right[0].OnInteract();
-        }
-
-        return null;
+        m = Regex.Match(command, @"^\s*(press\s+)?([A-Z])\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        if (!m.Success)
+            yield break;
+        yield return null;
+        KeyboardSels["ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(m.Groups[2].Value.ToUpperInvariant())].OnInteract();
     }
 
-    IEnumerator TwitchHandleForcedSolve () {
-        GetComponent<KMBombModule>().HandlePass();
+    IEnumerator TwitchHandleForcedSolve()
+    {
         yield return null;
-   }
+        KeyboardSels["ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(answer5.ToUpperInvariant())].OnInteract();
+        yield break;
+    }
 }
