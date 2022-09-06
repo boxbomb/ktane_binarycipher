@@ -182,7 +182,7 @@ public class BinaryCipherScript : MonoBehaviour
             {
                 ModuleSolved = true;
                 Debug.LogFormat("[Binary Cipher #{0}] Correctly pressed {1}. Module solved.", ModuleId, ix);
-                Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.CorrectChime, transform);
+                Audio.PlaySoundAtTransform("SolveSFX", transform);
                 GetComponent<KMBombModule>().HandlePass();
             }
             else
