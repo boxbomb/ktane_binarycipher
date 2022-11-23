@@ -7770,6 +7770,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bomb: {fileID: 114539842097773012}
   Audio: {fileID: 114364134261172028}
+  Module: {fileID: 114185860938312406}
   ArrowSels:
   - {fileID: 114162213168243054}
   - {fileID: 114815155198893788}
@@ -7800,14 +7801,10 @@ MonoBehaviour:
   - {fileID: 114900519058416366}
   - {fileID: 114503362865228394}
   - {fileID: 114907782466565520}
-  top:
-  - {fileID: 102210568256480430}
-  bottom:
-  - {fileID: 102924240302217666}
-  middle:
-  - {fileID: 102943766716940092}
-  stagetext:
-  - {fileID: 102561888565109192}
+  top: {fileID: 102210568256480430}
+  bottom: {fileID: 102943766716940092}
+  middle: {fileID: 102924240302217666}
+  stagetext: {fileID: 102561888565109192}
 --- !u!114 &114736114310796298
 MonoBehaviour:
   m_ObjectHideFlags: 1

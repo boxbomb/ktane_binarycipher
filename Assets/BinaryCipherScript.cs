@@ -11,6 +11,7 @@ public class BinaryCipherScript : MonoBehaviour
 {
     public KMBombInfo Bomb;
     public KMAudio Audio;
+    public KMBombModule Module;
 
     private static int ModuleIdCounter = 1;
     private int ModuleId;
@@ -55,10 +56,10 @@ public class BinaryCipherScript : MonoBehaviour
     };
     private int deletenum;
     private string selectkeyword;
-    public TextMesh[] top;
-    public TextMesh[] bottom;
-    public TextMesh[] middle;
-    public TextMesh[] stagetext;
+    public TextMesh top;
+    public TextMesh bottom;
+    public TextMesh middle;
+    public TextMesh stagetext;
     private string stage;
     private string deleteletter;
     private string resultkeyword;
@@ -150,20 +151,20 @@ public class BinaryCipherScript : MonoBehaviour
             Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, ArrowSels[btn].transform);
             if (ModuleSolved)
                 return false;
-            if (stagetext[0].text == "1")
+            if (stagetext.text == "1")
             {
-                top[0].text = selectletter;
-                bottom[0].text = "";
+                top.text = selectletter;
+                bottom.text = "";
                 stage += 1;
-                middle[0].text = string.Concat(b1.ToString(), b2.ToString(), b3.ToString(), b4.ToString(), b5.ToString(), b6.ToString(), b7.ToString(), b8.ToString(), b9.ToString(), b10.ToString(), b11.ToString(), b12.ToString(), b13.ToString(), b14.ToString(), b15.ToString(), b16.ToString());
-                stagetext[0].text = "2";
+                middle.text = string.Concat(b1.ToString(), b2.ToString(), b3.ToString(), b4.ToString(), b5.ToString(), b6.ToString(), b7.ToString(), b8.ToString(), b9.ToString(), b10.ToString(), b11.ToString(), b12.ToString(), b13.ToString(), b14.ToString(), b15.ToString(), b16.ToString());
+                stagetext.text = "2";
             }
             else
             {
-                bottom[0].text = keywordtext;
-                top[0].text = encry;
-                middle[0].text = "";
-                stagetext[0].text = "1";
+                bottom.text = keywordtext;
+                top.text = encry;
+                middle.text = "";
+                stagetext.text = "1";
 
             }
             return false;
@@ -183,10 +184,13 @@ public class BinaryCipherScript : MonoBehaviour
                 ModuleSolved = true;
                 Debug.LogFormat("[Binary Cipher #{0}] Correctly pressed {1}. Module solved.", ModuleId, ix);
                 Audio.PlaySoundAtTransform("SolveSFX", transform);
-                GetComponent<KMBombModule>().HandlePass();
+                Module.HandlePass();
             }
             else
-                GetComponent<KMBombModule>().HandleStrike();
+            {
+                Module.HandleStrike();
+                Debug.LogFormat("[Binary Cipher #{0}] Incorrectly pressed {1}. Strike.", ModuleId, ix);
+            }
             return false;
         };
     }
@@ -194,13 +198,13 @@ public class BinaryCipherScript : MonoBehaviour
     void Start()
     {
         stage = "1";
-        stagetext[0].text = stage;
+        stagetext.text = stage;
         answer5 = answer[Rnd.Range(0, answer.Length)];
         selectletter = topletter[Rnd.Range(0, topletter.Length)];
         selectkeyword = keyword[Rnd.Range(0, keyword.Length)];
         keywordtext = selectkeyword;
         deletenum = Rnd.Range(0, 1);
-        bottom[0].text = keywordtext;
+        bottom.text = keywordtext;
         b1 = Rnd.Range(0, 2);
         b2 = Rnd.Range(0, 2);
         b3 = Rnd.Range(0, 2);
@@ -1144,7 +1148,7 @@ public class BinaryCipherScript : MonoBehaviour
         }
 
         encry = string.Concat(t4[0, 0], t4[0, 1], t4[0, 2], t4[0, 3], t4[1, 0], t4[1, 1], t4[1, 2], t4[1, 3], t4[2, 0], t4[2, 1], t4[2, 2], t4[2, 3], t4[3, 0], t4[3, 1], t4[3, 2], t4[3, 3]);
-        top[0].text = encry;
+        top.text = encry;
 
         // Initial logging
         Debug.LogFormat("[Binary Cipher #{0}] Page 1, top screen: {1}", ModuleId, encry);
@@ -1202,7 +1206,7 @@ public class BinaryCipherScript : MonoBehaviour
     }
 
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"!{0} press <letter> to press that letter. | !{0} press left/right to press left or right. | 'press' is optional.";
+    private readonly string TwitchHelpMessage = @"!{0} press <letter> to press that letter. | !{0} press left/right to press left or right.";
 #pragma warning restore 414
 
     IEnumerator ProcessTwitchCommand(string command)
@@ -1221,11 +1225,11 @@ public class BinaryCipherScript : MonoBehaviour
             ArrowSels[1].OnInteract();
             yield break;
         }
-        m = Regex.Match(command, @"^\s*(press\s+)?([A-Z])\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        m = Regex.Match(command, @"^\s*press\s+([A-Z])\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
         if (!m.Success)
             yield break;
         yield return null;
-        KeyboardSels["ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(m.Groups[2].Value.ToUpperInvariant())].OnInteract();
+        KeyboardSels["ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(m.Groups[1].Value.ToUpperInvariant())].OnInteract();
     }
 
     IEnumerator TwitchHandleForcedSolve()
